@@ -5448,13 +5448,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['userId'],
   data: function data() {
     return {
       form: new Form({
         title: "",
-        id: this.userId
+        userid: this.userId
       }),
       todos: "",
       editmode: false
@@ -5462,6 +5464,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   // on every load
   mounted: function mounted() {
+    this.getId();
     this.getData();
   },
   methods: {
@@ -5470,7 +5473,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var data = new FormData();
       data.append("title", this.form.title);
-      data.append('user_id', this.form.id);
+      data.append('user_id', this.getId());
       axios.post("todo/", data).then(function (res) {
         _this.form.reset();
 
@@ -5526,6 +5529,10 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         _this4.form.errors.record(error.response.data.errors);
       });
+    },
+    getId: function getId() {
+      console.log(this.userId);
+      return this.userId;
     }
   }
 });
@@ -28424,6 +28431,28 @@ var render = function () {
                   return
                 }
                 _vm.$set(_vm.form, "title", $event.target.value)
+              },
+            },
+          }),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.form.userid,
+                expression: "form.userid",
+              },
+            ],
+            staticStyle: { display: "none" },
+            attrs: { type: "text" },
+            domProps: { value: _vm.form.userid },
+            on: {
+              input: function ($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.form, "userid", $event.target.value)
               },
             },
           }),

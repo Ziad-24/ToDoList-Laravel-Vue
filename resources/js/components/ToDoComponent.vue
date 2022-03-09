@@ -13,6 +13,8 @@
                     :class="{ 'is-invalid': form.errors.has('title') }"
                     @keydown="form.errors.clear('title')"
                 />
+                <input type="text" v-model="form.userid" style="display:none;"/>
+
                 <div class="input-group-append">
                     <button class="btn btn-success" type="submit">
                         Add item to list
@@ -89,7 +91,7 @@ export default {
         return {
             form: new Form({
                 title: "",
-                id: this.userId,
+                userid: this.userId,
             }),
             todos: "",
             editmode : false, 
@@ -97,6 +99,7 @@ export default {
     },
     // on every load
     mounted() {
+        this.getId();
         this.getData();
     },
 
@@ -104,7 +107,7 @@ export default {
         saveData() {
             let data = new FormData();
             data.append("title", this.form.title);
-            data.append('user_id',this.form.id);
+            data.append('user_id',this.getId());
             axios
                 .post("todo/", data)
                 .then((res) => {
@@ -162,7 +165,11 @@ export default {
             }).catch(error=>{
                 this.form.errors.record(error.response.data.errors);
             });
-        }
+        },
+        getId(){
+            console.log(this.userId);
+            return this.userId;
+        },
 
     },
 };
